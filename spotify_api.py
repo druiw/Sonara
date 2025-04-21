@@ -68,7 +68,7 @@ def getLyrics():
     else:
         print("No song is currently playing.")
 
-if __name__== "__main__":
+def mainMenu():
     print()
     print("Welcome to Sonara " + displayName + "!")
     print()
@@ -76,6 +76,7 @@ if __name__== "__main__":
     print()
     print("0 - Search for an artist")
     print("1 - Display current playing song")
+    print("2 - Close app")
     userChoice = input(str("Enter your selection here: "))
 
     if userChoice == "0":
@@ -83,8 +84,9 @@ if __name__== "__main__":
     
     if userChoice == "1":
         print()
-        print()
+        print(">>>>>>>>>>>>>>>>>")
         print(getCurrentSong())
+        print("<<<<<<<<<<<<<<<<<")
         print()
         print("Would you like to see the lyrics?")
         print("0 - Yes, display lyrics!")
@@ -93,7 +95,20 @@ if __name__== "__main__":
 
         if userChoice == "0":
             getLyrics()
+            mainMenu()
+        else:
+            mainMenu()
 
+    elif userChoice == "2":
+        print("Thanks for using Sonara! 🎧")
+        exit()
+
+    else:
+        print("Invalid input... Try again!")
+        mainMenu()
+
+if __name__== "__main__":
+    mainMenu()
 
 
 
