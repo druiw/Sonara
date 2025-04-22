@@ -13,8 +13,11 @@ sp = spotipy.Spotify(auth_manager=SpotifyOAuth(
     scope = "user-read-playback-state"
 ))
 
+# get spotify name and details of the Sonara user
 user = sp.current_user()
 displayName = user['display_name']
+userFollowers = user['followers']['total']
+print(json.dumps(user, indent=2)) 
 
 # Function to fetch current song from Spotify
 def getCurrentSong():
@@ -27,19 +30,26 @@ def getCurrentSong():
     return "No song is currently playing"
 
 def getArtist():
-    searchQuery = input("Enter an Artist: ")
-    searchResults = sp.search(searchQuery, 1, 0, "artist")
-    artist = searchResults['artists']['items'][0]
-    artistName = artist['name']
-    artistFollowers = artist['followers']['total']
-    print()
-    print(f"{artistName} has {artistFollowers:,} followers on Spotify!")
-    #print(json.dumps(searchResults, sort_keys=True, indent = 4))
+    searchQuery = input("Enter an Artist: ")  # Ask the user to type an artist name
+    searchResults = sp.search(searchQuery, type="artist", limit=1)  # Use Spotify API to search for the artist
+    items = searchResults['artists']['items']  # Extract the list of matching artists from the search results
 
+    if not items:  # If no artists were found
+        print("No artist found with that name.")  # Let the user know
+        return None  # Exit the function early
+
+    artist = items[0]  # Take the first artist result from the list
+
+    return artist  # Return the artist dictionary for use in other functions
+
+def getArtistFollowers(artist):
+    artistName = artist['name']  # Get the artist's name
+    artistFollowers = artist['followers']['total'] # Get the artist's total number of followers
+    print(f"{artistName} has {artistFollowers:,} followers on Spotify!")  # Nicely formatted follower count with commas
 
 def get_artist_id(artist_name):
-    result = sp.search(q=f"artist:{artist_name}:", type="artist", limit=1)
-    return result['artist']['items'][0]['id']
+    result = sp.search(q=f"artist:{artist_name}", type="artist", limit=1)
+    return result['artists']['items'][0]['id']
 
 def get_top_tracks(artist_id):
     tracks = sp.artist_top_tracks(artist_id)['tracks']
@@ -80,14 +90,36 @@ def mainMenu():
     userChoice = input(str("Enter your selection here: "))
 
     if userChoice == "0":
-        getArtist()
+        artistData = getArtist()
+        artistName = artistData['name']
+        print()
+        print("0 - View " + artistName + "'s followers")
+        print("1 - View " + artistName + "'s top 10 tracks")
+        userChoice = input(str("Enter your selection: "))
+
+        if userChoice == "0":
+            print()
+            getArtistFollowers(artistData)
+            mainMenu()
+        
+        if userChoice == "1":
+            print()
+            artistID = get_artist_id(artistName)
+            topTracks = get_top_tracks(artistID)
+            for i, track in enumerate(topTracks, start = 1):
+                print(f"{i}. {track}")
+            mainMenu()
     
     if userChoice == "1":
         print()
-        print(">>>>>>>>>>>>>>>>>")
+        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
         print(getCurrentSong())
-        print("<<<<<<<<<<<<<<<<<")
+        print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
         print()
+
+        if getCurrentSong() == "No song is currently playing":
+            mainMenu()
+
         print("Would you like to see the lyrics?")
         print("0 - Yes, display lyrics!")
         print("1 - No, take me back to main menu...")
@@ -102,6 +134,9 @@ def mainMenu():
     elif userChoice == "2":
         print("Thanks for using Sonara! 🎧")
         exit()
+
+    elif userChoice == "3":
+        print("Dev Controls")
 
     else:
         print("Invalid input... Try again!")
