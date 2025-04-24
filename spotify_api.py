@@ -10,14 +10,30 @@ sp = spotipy.Spotify(auth_manager=SpotifyOAuth(
     client_id=os.getenv("SPOTIFY_CLIENT_ID"),
     client_secret=os.getenv("SPOTIFY_CLIENT_SECRET"),
     redirect_uri=os.getenv("SPOTIFY_REDIRECT_URI"),
-    scope = "user-read-playback-state"
+    scope = "user-read-playback-state user-read-private user-modify-playback-state"
 ))
 
-# get spotify name and details of the Sonara user
+# User Details
 user = sp.current_user()
 displayName = user['display_name']
 userFollowers = user['followers']['total']
+userSubscriptionType = user.get("product", "unknown")
+
+#Call to display user JSON data
 #print(json.dumps(user, indent=2)) 
+
+# Function to skip song (User must be a premium member of Spotify)
+def skipSong():
+    isPremium = False
+    if userSubscriptionType == 'premium':
+        isPremium = True
+        try:
+            sp.next_track()
+            print("Skipped to next track 🎵")
+        except spotipy.SpotifyException as e:
+            print("Failed to skip track. ⚠️")
+    else:
+        print("Must be premium member to skip tracks.")
 
 # Function to fetch current song from Spotify
 def getCurrentSong():
@@ -39,7 +55,6 @@ def getArtist():
         return None  # Exit the function early
 
     artist = items[0]  # Take the first artist result from the list
-
     return artist  # Return the artist dictionary for use in other functions
 
 def getArtistFollowers(artist):
@@ -54,7 +69,6 @@ def get_artist_id(artist_name):
 def get_top_tracks(artist_id):
     tracks = sp.artist_top_tracks(artist_id)['tracks']
     return [track['name'] for track in tracks]
-
     
 def get_top_track_objects(artist_id):
     return sp.artist_top_tracks(artist_id)['tracks']
@@ -101,6 +115,9 @@ def getLyrics():
     else:
         print("No song is currently playing.")
 
+        
+#########################################################################################################################
+# User Navigation Menu
 def mainMenu():
     print()
     print("Welcome to Sonara " + displayName + "!")
@@ -173,6 +190,10 @@ def mainMenu():
 
     elif userChoice == "3":
         print("Dev Controls")
+        print("0 - Skip Track")
+        userChoice = input("Enter your selection here: ")
+        if userChoice == "0":
+            skipSong()
 
     else:
         print("Invalid input... Try again!")
