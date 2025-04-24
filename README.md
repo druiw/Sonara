@@ -3,7 +3,10 @@
 IN DEVELOPMENT
 
 - Gets users current song playing in spotify
-- Displays the lyrics to the song playing as well
+- Displays the lyrics to the current song playing
+- Search for an artist
+- Display that artist's followers & top tracks
+- Choice to skip song if the user has Spotify Premium
 
 ## Screenshots
 
@@ -18,7 +21,3 @@ IN DEVELOPMENT
 - Uses Spotify Web API
 - Uses Genius Lyrics API
 - Uses Spotipy Wrapper
-
-## Description
-
-...
