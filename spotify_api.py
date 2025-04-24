@@ -17,7 +17,7 @@ sp = spotipy.Spotify(auth_manager=SpotifyOAuth(
 user = sp.current_user()
 displayName = user['display_name']
 userFollowers = user['followers']['total']
-print(json.dumps(user, indent=2)) 
+#print(json.dumps(user, indent=2)) 
 
 # Function to fetch current song from Spotify
 def getCurrentSong():
@@ -54,6 +54,29 @@ def get_artist_id(artist_name):
 def get_top_tracks(artist_id):
     tracks = sp.artist_top_tracks(artist_id)['tracks']
     return [track['name'] for track in tracks]
+
+    
+def get_top_track_objects(artist_id):
+    return sp.artist_top_tracks(artist_id)['tracks']
+
+def getTrackDetails(artist_id):
+    try:
+        choice = input("Enter the number listed to the left of the track you would like to view the details for: ")
+        choiceInt = int(choice)
+
+        if 0 <= choiceInt <=len(track_list):
+            track = track_list[choiceInt]
+            print("\n🎵 Track Details:\n")
+            print(f"Title:          : {track['name']}")
+            print(f"Album:          : {track['album']['name']}")
+            print(f"Album Artist    : {track['album']['images'][0]['url']}")
+            print(f"Duration        : {track['duration_ms'] // 1000} seconds")
+            print(f"Preview url     : {track['preview_url'] or 'No preview available'}")
+        else:
+            print("Invalid number. Please try again.")
+        
+    except ValueError:
+        print("Invalid input. Please enter a number.")
 
 def get_top_tracks_from_current_song():
     current = sp.current_playback()
@@ -95,6 +118,7 @@ def mainMenu():
         print()
         print("0 - View " + artistName + "'s followers")
         print("1 - View " + artistName + "'s top 10 tracks")
+        print("2 - Return to main menu")
         userChoice = input(str("Enter your selection: "))
 
         if userChoice == "0":
@@ -108,6 +132,18 @@ def mainMenu():
             topTracks = get_top_tracks(artistID)
             for i, track in enumerate(topTracks, start = 1):
                 print(f"{i}. {track}")
+            print()
+            print("0 - View specific track details")
+            print("1 - Return to main menu")
+            userChoice = input(str("Enter your selection: "))
+
+            if userChoice == "0":
+                getTrackDetails(artistID)
+                
+            if userChoice == '1':
+                mainMenu()
+
+        if userChoice == "2":
             mainMenu()
     
     if userChoice == "1":
