@@ -115,7 +115,7 @@ def getLyrics():
     else:
         print("No song is currently playing.")
 
-        
+
 #########################################################################################################################
 # User Navigation Menu
 def mainMenu():
@@ -126,7 +126,8 @@ def mainMenu():
     print()
     print("0 - Search for an artist")
     print("1 - Display current playing song")
-    print("2 - Close app")
+    print("2 - Skip Song")
+    print("3 - Close app")
     userChoice = input(str("Enter your selection here: "))
 
     if userChoice == "0":
@@ -185,6 +186,13 @@ def mainMenu():
             mainMenu()
 
     elif userChoice == "2":
+        skipSong()
+        currentSong = getCurrentSong()
+        print()
+        print("Now playing " + currentSong)
+        mainMenu()
+
+    elif userChoice == "3":
         print("Thanks for using Sonara! 🎧")
         exit()
 
