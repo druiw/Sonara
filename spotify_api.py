@@ -45,6 +45,13 @@ def getCurrentSong():
         return f"{name} by {artist}"
     return "No song is currently playing"
 
+# Get the album art of the song playing
+def getCurrentAlbumArt():
+    current = sp.current_playback()
+    albumArt = current['item']['album']['images'][0]['url']
+    print(json.dumps(current, sort_keys=True, indent=4))
+    return albumArt
+
 def getArtist():
     searchQuery = input("Enter an Artist: ")  # Ask the user to type an artist name
     searchResults = sp.search(searchQuery, type="artist", limit=1)  # Use Spotify API to search for the artist
@@ -60,7 +67,7 @@ def getArtist():
 def getArtistFollowers(artist):
     artistName = artist['name']  # Get the artist's name
     artistFollowers = artist['followers']['total'] # Get the artist's total number of followers
-    print(f"{artistName} has {artistFollowers:,} followers on Spotify!")  # Nicely formatted follower count with commas
+    print(f"{artistName} has {artistFollowers:,} followers on Spotify!")  # Formatted follower count
 
 def get_artist_id(artist_name):
     result = sp.search(q=f"artist:{artist_name}", type="artist", limit=1)
@@ -196,12 +203,12 @@ def mainMenu():
         print("Thanks for using Sonara! 🎧")
         exit()
 
-    elif userChoice == "3":
+    elif userChoice == "4":
         print("Dev Controls")
         print("0 - Skip Track")
         userChoice = input("Enter your selection here: ")
         if userChoice == "0":
-            skipSong()
+            getCurrentAlbumArt()
 
     else:
         print("Invalid input... Try again!")
