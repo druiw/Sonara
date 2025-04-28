@@ -16,7 +16,7 @@ IN DEVELOPMENT 🚧
 ![image](https://github.com/user-attachments/assets/46c40684-0f48-42ff-8263-f5189b6d4458)
 ![image](https://github.com/user-attachments/assets/0b87f77b-5a60-4eed-9151-ad62904f4dc2)
 
-## Overview
+## Overview 📎
 
 - Uses Spotify Web API
 - Uses Genius Lyrics API
