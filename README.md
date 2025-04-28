@@ -1,6 +1,6 @@
 # Sonara 🎧
 
-IN DEVELOPMENT
+IN DEVELOPMENT 🚧
 
 - Gets users current song playing in spotify
 - Displays the lyrics to the current song playing
