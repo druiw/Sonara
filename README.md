@@ -8,7 +8,7 @@ IN DEVELOPMENT 🚧
 - Display that artist's followers & top tracks
 - Choice to skip song if the user has Spotify Premium
 
-## Screenshots
+## Screenshots 📸
 
 ![image](https://github.com/user-attachments/assets/7b2a0f95-1c75-4431-8728-8dfb9f1f25d3)
 ![image](https://github.com/user-attachments/assets/18fe4390-f415-490d-abaa-b32ff6e884ce)
