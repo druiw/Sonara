@@ -21,3 +21,4 @@ IN DEVELOPMENT 🚧
 - Uses Spotify Web API
 - Uses Genius Lyrics API
 - Uses Spotipy Wrapper
+- PyQt5 GUI
