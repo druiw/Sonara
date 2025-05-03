@@ -7,7 +7,7 @@ IN DEVELOPMENT 🚧
 - Search for an artist
 - Display that artist's followers & top tracks
 - Choice to skip song if the user has Spotify Premium
-- GUI Functionality
+- GUI
 
 ## Screenshots 📸
 
