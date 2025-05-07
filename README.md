@@ -1,4 +1,4 @@
-# 🎧 Sonara 🎧
+## 🎧 Sonara 🎧
 
 IN DEVELOPMENT 🚧
 
